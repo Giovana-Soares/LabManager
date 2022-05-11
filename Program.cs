@@ -30,7 +30,8 @@ if(modelName == "Computer")
     if(modelAction == "List")
     {
         connection = new SqliteConnection("Data Source=database.db");
-        connection.Open();  
+        connection.Open(); 
+         
         command = connection.CreateCommand();
         command.CommandText = "SELECT * FROM Computers;";
 
@@ -47,21 +48,21 @@ if(modelName == "Computer")
 
     if(modelAction == "New")
     {
+        connection = new SqliteConnection("Data Source=database.db");
+        connection.Open(); 
+
         Console.WriteLine("New computer");
         int id = Convert.ToInt32(args[2]);
         string ram = args[3];
         string processador = args[4];
-
-        connection = new SqliteConnection("Data Source=database.db");
-        connection.Open();  
+        
         command = connection.CreateCommand();
         command.CommandText = "INSERT INTO Computers VALUES($id, $ram, $processador);";
         command.Parameters.AddWithValue("$id", id);
         command.Parameters.AddWithValue("$ram", ram);
         command.Parameters.AddWithValue("$processador", processador);
-
         command.ExecuteNonQuery();
-       // Console.WriteLine("{0},{1},{2}", id, ram, processador);
+        
         connection.Close();
     }
 }
@@ -88,18 +89,17 @@ if(modelName == "Lab")
 
     if(modelAction == "New")
     {
-        connection = new SqliteConnection("Data Source=database1.db");
-        connection.Open(); 
+        connection = new SqliteConnection("Data Source=database.db");
+        connection.Open();
 
         Console.WriteLine("New lab");
         int id = Convert.ToInt32(args[2]);
         string num = args[3];
         string nome = args[4];
         string bloco = args[5];
-
          
         command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Labs VALUES($id, $num,  $nome, $bloco);";
+        command.CommandText = "INSERT INTO Lab VALUES($id, $num,  $nome, $bloco);";
         command.Parameters.AddWithValue("$id", id);
         command.Parameters.AddWithValue("$num", num);
         command.Parameters.AddWithValue("$nome", nome);
