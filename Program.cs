@@ -9,6 +9,7 @@ var databaseConfig = new DatabaseConfig();
 var DatabaseSetup= new DatabaseSetup(databaseConfig);
 
 var computerRepository = new ComputerRepository(databaseConfig);
+var labRepository = new LabRepository(databaseConfig);
 
 // Roteamento
 var modelName = args[0];
@@ -44,7 +45,12 @@ if(modelName == "Lab")
 {
     if(modelAction == "List")
     {
-        
+        Console.WriteLine("Lab List");
+        foreach (var lab in labRepository.GetAll())
+        {
+            var message = $"{lab.Id} , {lab.Number}, {lab.Name}, {lab.Block}";
+            Console.WriteLine(message);
+        }
     }
 
     if(modelAction == "New")
