@@ -1,6 +1,8 @@
 ﻿using LabManager.Database;
+using LabManager.Models;
 using LabManager.Repositories;
 using Microsoft.Data.Sqlite;
+
 
 
 var databaseConfig = new DatabaseConfig();
@@ -32,15 +34,9 @@ if(modelName == "Computer")
         int id = Convert.ToInt32(args[2]);
         string ram = args[3];
         string processador = args[4];
-        
-        var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Computers VALUES($id, $ram, $processador);";
-        command.Parameters.AddWithValue("$id", id);
-        command.Parameters.AddWithValue("$ram", ram);
-        command.Parameters.AddWithValue("$processador", processador);
-        command.ExecuteNonQuery();
-        
-        connection.Close();
+
+        var computer = new Computer(id,ram,processador);
+        computerRepository.Save(computer);
     }
 }
 
