@@ -14,6 +14,7 @@ class ComputerRepository
     }
 
     public List<Computer> GetAll()
+
     {
         var connection = new SqliteConnection(databaseConfig.ConnectionString);
         connection.Open();  
@@ -32,5 +33,20 @@ class ComputerRepository
 
         connection.Close();
         return computers;
+    }
+    
+    public void Save(Computer computer)
+    {
+        var connection = new SqliteConnection(databaseConfig.ConnectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "INSERT INTO Computers VALUES($id, $ram, $processador);";
+        command.Parameters.AddWithValue("$id", computer.Id);
+        command.Parameters.AddWithValue("$ram", computer.Ram);
+        command.Parameters.AddWithValue("$processador", computer.Processador);
+        command.ExecuteNonQuery();
+        
+        connection.Close();
     }
 }
