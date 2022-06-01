@@ -52,6 +52,16 @@ if(modelName == "Computer")
        int id = Convert.ToInt32(args[2]);
        computerRepository.Delete(id);
     }
+
+    if(modelAction == "Update")
+    {
+        int id = Convert.ToInt32(args[2]);
+        string ram = args[3];
+        string processador = args[4];
+
+        var computer = new Computer(id, ram, processador);
+        computerRepository.Update(computer);   
+    }
 }
 
 if(modelName == "Lab")
