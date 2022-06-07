@@ -41,10 +41,17 @@ if(modelName == "Computer")
     
     if(modelAction == "Show")
     {
-       int id = Convert.ToInt32(args[2]);
-       var computer = computerRepository.GetById(id);
-
-        Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processador);
+        int id = Convert.ToInt32(args[2]);
+        if (computerRepository.existsById(id))
+        {
+            var computer = computerRepository.GetById(id);
+            Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processador);
+        } 
+        else
+        {
+            Console.WriteLine($"Computer com id {id} não existe");
+        }
+       
     }
 
     if(modelAction == "Delete")

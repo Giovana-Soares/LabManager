@@ -14,7 +14,6 @@ class ComputerRepository
     }
 
     public List<Computer> GetAll()
-
     {
         var connection = new SqliteConnection(databaseConfig.ConnectionString);
         connection.Open();  
@@ -28,7 +27,7 @@ class ComputerRepository
 
         while(reader.Read())
         {
-            computers.Add(new Computer(reader.GetInt32(0),  reader.GetString(1), reader.GetString(2)));
+            computers.Add(readerToComputer(reader));
         }
 
         connection.Close();
@@ -63,9 +62,10 @@ class ComputerRepository
         var reader = command.ExecuteReader();
 
         reader.Read();
-
-        var computer = new Computer(reader.GetInt32(0),  reader.GetString(1), reader.GetString(2));
-
+        
+        var computer = readerToComputer(reader);
+        Console.WriteLine("{0},{1},{2}", computer.Id, computer.Ram, computer.Processador);
+        
         connection.Close();
         return computer;
     }
@@ -98,6 +98,20 @@ class ComputerRepository
         connection.Close();
         
         return computer;
+    }
+
+    public bool existsById (int id)
+    {
+        
+
+        //var reader = command.ExecuteScalar();
+        return false;
+    }
+    private Computer readerToComputer(SqliteDataReader reader)
+    {
+        return new Computer(
+            reader.GetInt32(0),  reader.GetString(1), reader.GetString(2)
+        );
     }
 
 }
