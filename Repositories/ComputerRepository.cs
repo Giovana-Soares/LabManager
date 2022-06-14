@@ -64,7 +64,7 @@ class ComputerRepository
         reader.Read();
         
         var computer = readerToComputer(reader);
-        Console.WriteLine("{0},{1},{2}", computer.Id, computer.Ram, computer.Processador);
+        Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processador);
         
         connection.Close();
         return computer;
@@ -102,16 +102,27 @@ class ComputerRepository
 
     public bool existsById (int id)
     {
-        
+        var connection = new SqliteConnection(databaseConfig.ConnectionString);
+        connection.Open();
 
-        //var reader = command.ExecuteScalar();
-        return false;
+        var command = connection.CreateCommand();
+        command.CommandText = @"SELECT count(id) FROM Computers WHERE id = $id;";
+        command.Parameters.AddWithValue("$id",id);
+
+        bool status= Convert.ToBoolean(command.ExecuteScalar());
+
+        connection.Close();        
+
+        return status;
     }
+    
     private Computer readerToComputer(SqliteDataReader reader)
     {
         return new Computer(
             reader.GetInt32(0),  reader.GetString(1), reader.GetString(2)
         );
     }
+
+
 
 }
