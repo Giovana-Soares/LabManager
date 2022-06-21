@@ -27,16 +27,20 @@ if(modelName == "Computer")
 
     if(modelAction == "New")
     {
-        var connection = new SqliteConnection("Data Source=database.db");
-        connection.Open(); 
-
-        Console.WriteLine("New computer");
         int id = Convert.ToInt32(args[2]);
         string ram = args[3];
         string processador = args[4];
 
-        var computer = new Computer(id,ram,processador);
-        computerRepository.Save(computer);
+        if (computerRepository.existsById(id))
+        {
+            Console.WriteLine($"Computer com id {id} ja esta cadastrado"); 
+        }
+        else
+        {
+            Console.WriteLine("New computer");
+            var computer = new Computer(id, ram, processador);
+            computerRepository.Save(computer);
+        }
     }
     
     if(modelAction == "Show")
@@ -45,6 +49,7 @@ if(modelName == "Computer")
         if (computerRepository.existsById(id) == true)
         {
             var computer = computerRepository.GetById(id);
+            Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processador);
         } 
         else
         {

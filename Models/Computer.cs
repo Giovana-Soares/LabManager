@@ -6,6 +6,8 @@ class Computer
     public string Ram { get; set; }
     public string Processador { get; set; }  
 
+    public Computer() {}
+
     public Computer (int id, string ram, string processador)
     {
         Id = id;
